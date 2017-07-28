@@ -88,12 +88,10 @@ def round_sig(x, sig=1):
     return np.round(x, d), d
 
 
-def summary(samples, par, truths=None, outfile=None):
-    mean = samples.mean(0)
-    sigma = samples.std(0)
+def print_parameters(pval, perr, par, truths=None, outfile=None):
     for i, p in enumerate(par):
-        err, dp = round_sig(sigma[i], 1)
-        val = round(mean[i], dp)
+        err, dp = round_sig(perr[i], 1)
+        val = round(pval[i], dp)
         post = 'e}' if np.abs(np.log10(np.abs(val))) > 3 else 'f}'
         dps = str(dp) + post
         outstr = ('{:16s} = {:8.' + dps +
@@ -102,6 +100,12 @@ def summary(samples, par, truths=None, outfile=None):
             dpt = str(dp + 1) + post
             outstr += ('   ({:8.' + dpt + ')').format(truths[i])
         print(outstr, file=outfile)
+
+
+def summary(samples, par, truths=None, outfile=None):
+    mean = samples.mean(0)
+    sigma = samples.std(0)
+    outstr = print_parameters(mean, sigma, par, truths, outfile)
     return mean, sigma
 
 

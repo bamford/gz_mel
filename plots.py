@@ -267,6 +267,7 @@ def print_emcee(sampler, par, model=None, x=None, y=None, yerror=None, nburn=0,
         stats['mean'], stats['sigma'] = summary(samples,
                                                 par, truths=truths,
                                                 outfile=outfile)
+        stats['maxprob'] = samples[np.argmax(lnprob)]
         if ntemp > 3:
             stats['logz'], stats['logzerr'] = log_evidence(sampler, nburn,
                                                            outfile=outfile)
