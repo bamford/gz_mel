@@ -239,9 +239,9 @@ def plot_convergence(sampler, itemp=0, outfile=None):
     stdev_track = (stdev_vs_iteration / stdev_vs_iteration[-1]) - 1
     fig, ax = plt.subplots(figsize=(10, 5))
     # only plot every tenth iteration
-    ax.set_color_cycle(palette.mpl_colors)
+    ax.set_prop_cycle('color', palette.mpl_colors)
     ax.plot(iterno[::10], mean_track[::10], linestyle='-')
-    ax.set_color_cycle(palette.mpl_colors)
+    ax.set_prop_cycle('color', palette.mpl_colors)
     ax.plot(iterno[::10], stdev_track[::10], linestyle='--')
     ax.set_xlabel('sample number')
     ax.set_ylabel("Convergence criteria")
