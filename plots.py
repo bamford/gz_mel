@@ -127,8 +127,9 @@ def plot_triangle(samples, par, model=None, xdata=None, ydata=None, yerror=None,
         ax.axis('off')
     else:
         # plot a subset of the samples
-        xchain = np.linspace(xdata.min(), xdata.max(), 100)
-        ychain = [model(xchain, p, *model_pars) for p in samples[::100]]
+        xchain = np.linspace(xdata[0], xdata[-1], 100)
+        idx = np.random.choice(len(samples), size=20, replace=False)
+        ychain = [model(xchain, p, *model_pars) for p in samples[idx]]
         for y in ychain:
             ax.plot(xchain, y, 'r-', alpha=min(10.0 / len(ychain), 0.5))
         # plot the "average" solution of the samples
@@ -266,7 +267,7 @@ def print_emcee(sampler, par, model=None, x=None, y=None, yerror=None, nburn=0,
         stats['mean'], stats['sigma'] = summary(samples,
                                                 par, truths=truths,
                                                 outfile=outfile)
-        if ntemp > 1:
+        if ntemp > 3:
             stats['logz'], stats['logzerr'] = log_evidence(sampler, nburn,
                                                            outfile=outfile)
         try:
@@ -289,12 +290,12 @@ def print_emcee(sampler, par, model=None, x=None, y=None, yerror=None, nburn=0,
                       xlabel, ylabel, weights=lnprob,
                       truths=truths)
         page()
-        if ntemp > 1:
+        if ntemp > 3:
             itemp50, itemp90 = check_betas(sampler, nburn)
+            page()
         else:
-            itemp50, itemp90 = (None, None)
+            itemp50, itemp90 = (0, 0)
         stats.update(itemp50=itemp50, itemp90=itemp90)
-        page()
         for itemp in np.unique((0, itemp50, itemp90)):
             plt.figure()
             plot_chain(sampler, par, nburn, itemp=itemp)

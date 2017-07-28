@@ -173,10 +173,11 @@ def run_emcee(logl, logp, p0func,
             pos, lnprob, rstate = sampler.run_mcmc(pos, nsteps)
             print(' {}'.format((i + 1) * nsteps), end='')
             sys.stdout.flush()
-        print('\nTime taken = {:.2f} secs'.format(time.clock() - start))
     nsteps = nsamples - sampler.chain.shape[-2]
     if nsteps > 0:
         pos, lnprob, rstate = sampler.run_mcmc(pos, nsteps)
+    if nupdates > 0:
+        print('\nTime taken = {:.2f} secs'.format(time.clock() - start))
     if outfilename is None:
         outfilename = 'emcee_sampler.npz'
     try:
