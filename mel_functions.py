@@ -107,7 +107,9 @@ def plot_N(N, Nerr, Nfit=None):
             ax.plot(N.index, Nfit[col], '--', color='C{}'.format(j))
         ax.set(xlabel='$z$', ylabel='$N(z)/N(z={:.1f})$'.format(z0),
               ylim=(0, 1), title='$\log(M/M_\odot) \sim {}$'.format(mdata[i-1]))
-    ax.legend(loc=1, ncol=3)
+    handles, labels = ax.get_legend_handles_labels()
+    labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
+    ax.legend(handles, labels, loc=1, ncol=3)
     plt.tight_layout()
 
 
@@ -144,7 +146,9 @@ def plot_F(F, Ferr, Ffit=None):
             axarr[0].plot(Ffitm.index, Ffitm[col], '--', color='C{}'.format(j))
     axarr[0].set(xlabel='$z$', ylabel='$f_{R|D}(z)$',
               ylim=(0, 0.4))
-    axarr[0].legend(loc=1, ncol=4)
+    handles, labels = axarr[0].get_legend_handles_labels()
+    labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
+    axarr[0].legend(handles, labels, loc=1, ncol=4)
     Fm = F.filter(regex=('.*D.R.*'))
     Ferrm = Ferr.filter(regex=('.*D.R.*'))
     if Ffit is not None:
@@ -155,7 +159,9 @@ def plot_F(F, Ferr, Ffit=None):
             axarr[1].plot(Ffitm.index, Ffitm[col], '--', color='C{}'.format(j))
     axarr[1].set(xlabel='$z$', ylabel='$f_{D|R}(z)$',
               ylim=(0, 0.4))
-    axarr[1].legend(loc=1, ncol=4)
+    handles, labels = axarr[1].get_legend_handles_labels()
+    labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
+    axarr[1].legend(handles, labels, loc=1, ncol=4)
     plt.tight_layout()
 
 

@@ -83,7 +83,10 @@ def check_acc_frac(sampler, outfile=None):
 
 
 def round_sig(x, sig=1):
-    d = sig - int(np.floor(np.log10(x))) - 1
+    try:
+        d = sig - int(np.floor(np.log10(x))) - 1
+    except ValueError:
+        d = 3
     d = max(0, d)
     return np.round(x, d), d
 
