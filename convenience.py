@@ -140,7 +140,7 @@ def check_init_pars(logl, logp, p0, outfile=None):
 
 
 def run_emcee(logl, logp, p0func,
-              ntemps=0, nwalkers=50, nsamples=2500,
+              ntemps=0, nwalkers=50, nsamples=2500, thin=1,
               minlogbeta=None, nupdates=10,
               threads=1, outfilename=None, saveall=True,
               **kwargs):
@@ -177,12 +177,12 @@ def run_emcee(logl, logp, p0func,
         sys.stdout.flush()
         nsteps = nsamples // nupdates
         for i in range(nupdates):
-            pos, lnprob, rstate = sampler.run_mcmc(pos, nsteps)
+            pos, lnprob, rstate = sampler.run_mcmc(pos, nsteps, thin=thin)
             print(' {}'.format((i + 1) * nsteps), end='')
             sys.stdout.flush()
     nsteps = nsamples - sampler.chain.shape[-2]
     if nsteps > 0:
-        pos, lnprob, rstate = sampler.run_mcmc(pos, nsteps)
+        pos, lnprob, rstate = sampler.run_mcmc(pos, nsteps, thin=thin)
     if nupdates > 0:
         print('\nTime taken = {:.2f} secs'.format(time.clock() - start))
     if outfilename is None:
